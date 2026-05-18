@@ -133,7 +133,7 @@ const SLOTS = [
 // EMBEDDED DATA — replaced each time Chris asks me to rebuild the viewer.
 // Schema per day: { slots: [ { activity: [strings], location: '', notes: '' } x 16 ] }
 const DATA = {
-  __lastUpdated: '2026-05-08',
+  __lastUpdated: '2026-05-18',
   d1: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
   d2: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
   d3: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
@@ -144,9 +144,37 @@ const DATA = {
 };
 
 // Apply known events
-DATA.d3.slots[9].activity = ['AdAge The List — Cannes kickoff (5:00–6:00 PM)'];
+// Sun Jun 21
+DATA.d2.slots[15].activity = ['Canva Creative Cabana opens · Vega la Plage, Bd de la Croisette · open through Thu 2 PM, drop-in'];
+
+// Mon Jun 22
+DATA.d3.slots[4].activity = [
+  'Canva Creative Cabana · Vega la Plage (drop-in)',
+  'Reddit Community Deli · Promenade Robert Favre le Bret · open hours 11:30 AM–2:30 PM (pre-registered)'
+];
+DATA.d3.slots[9].activity = ['AdAge The List · Cannes kickoff (5:00–6:00 PM)'];
+
+// Tue Jun 23
+DATA.d4.slots[4].activity = [
+  'Canva Creative Cabana · Vega la Plage (drop-in)',
+  'Reddit Community Deli · Promenade Robert Favre le Bret · open hours 11:30 AM–2:30 PM'
+];
 DATA.d4.slots[9].activity = ['AdAge Small Agency Network at Cannes (5:00–6:00 PM)'];
-DATA.d5.slots[9].activity = ['Ad Age Cannes Lawn Party — RSVP required (5:30–7:30 PM)'];
+
+// Wed Jun 24
+DATA.d5.slots[1].activity = ['SIGAWomen Lounge · Roberto Cavalli, 67 Bd de la Croisette (9 AM–12 PM)'];
+DATA.d5.slots[4].activity = [
+  'Canva Creative Cabana · Vega la Plage (drop-in)',
+  'Reddit Community Deli · Promenade Robert Favre le Bret · open hours 11:30 AM–2:30 PM'
+];
+DATA.d5.slots[9].activity = ['Ad Age Cannes Lawn Party (5:30–7:30 PM, RSVP required)'];
+
+// Thu Jun 25
+DATA.d6.slots[3].activity = ['Canva Creative Cabana · Vega la Plage (closes 2 PM today)'];
+DATA.d6.slots[4].activity = ['Reddit Community Deli · Promenade Robert Favre le Bret · open hours 11:30 AM–2:30 PM'];
+
+// Fri Jun 26
+DATA.d7.slots[1].activity = ['Reddit Community Deli · Promenade Robert Favre le Bret · open hours only, 9 AM–12 PM'];
 
 document.getElementById('updated-date').textContent = DATA.__lastUpdated;
 
