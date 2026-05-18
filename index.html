@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cannes Lions 2026 — Itinerary (View)</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #FBFAF7;
+    color: #0F1B2D;
+    line-height: 1.45;
+  }
+  header.hero {
+    background: linear-gradient(135deg, #0F1B2D 0%, #1B3050 100%);
+    color: #fff;
+    padding: 24px 24px 20px;
+    border-bottom: 3px solid #B08D3C;
+  }
+  header.hero h1 { margin: 0; font-size: 22px; letter-spacing: 0.08em; font-weight: 700; }
+  header.hero .sub { color: #B08D3C; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 4px; }
+  header.hero .meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  header.hero .dates { font-size: 13px; opacity: 0.85; }
+  header.hero .updated { font-size: 11px; color: #B08D3C; letter-spacing: 0.05em; }
+
+  nav.day-tabs {
+    display: flex; overflow-x: auto;
+    background: #fff; border-bottom: 1px solid #E5E0D5;
+    position: sticky; top: 0; z-index: 10;
+  }
+  nav.day-tabs button {
+    flex: 1 0 auto; min-width: 92px; padding: 12px 10px;
+    background: none; border: none; border-bottom: 3px solid transparent;
+    font-family: inherit; font-size: 12px; color: #4A4A4A; cursor: pointer; text-align: center;
+  }
+  nav.day-tabs button:hover { background: #F4E9D8; color: #0F1B2D; }
+  nav.day-tabs button.active { color: #0F1B2D; border-bottom-color: #B08D3C; background: #FAF6EE; font-weight: 600; }
+  nav.day-tabs button .day-short { display: block; font-weight: 700; color: #0F1B2D; }
+  nav.day-tabs button .day-num { display: block; font-size: 16px; margin-top: 2px; }
+
+  main { padding: 16px; max-width: 1100px; margin: 0 auto; }
+  .day-panel { display: none; }
+  .day-panel.active { display: block; }
+
+  .day-header {
+    border-bottom: 2px solid #0F1B2D; padding-bottom: 10px; margin-bottom: 16px;
+  }
+  .day-header .label { color: #B08D3C; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; }
+  .day-header h2 { margin: 4px 0 0; font-size: 24px; color: #0F1B2D; }
+
+  table.schedule {
+    width: 100%; border-collapse: collapse; background: #fff;
+    border: 1px solid #E5E0D5; border-radius: 8px; overflow: hidden;
+  }
+  table.schedule th {
+    background: #0F1B2D; color: #fff; text-align: left;
+    padding: 10px 12px; font-size: 11px; letter-spacing: 0.12em; font-weight: 700;
+  }
+  table.schedule td { padding: 12px; border-top: 1px solid #EEE7D5; vertical-align: top; font-size: 13px; }
+  table.schedule tr:first-child td { border-top: none; }
+  table.schedule .time { background: #F4E9D8; color: #0F1B2D; font-weight: 700; white-space: nowrap; width: 90px; }
+  table.schedule .block { background: #FAF6EE; color: #0F1B2D; width: 130px; font-size: 12px; }
+  table.schedule .activity { min-width: 220px; }
+  table.schedule .activity ul { margin: 0; padding-left: 18px; }
+  table.schedule .activity li { margin-bottom: 4px; }
+  table.schedule .activity .empty { color: #B8B0A0; font-style: italic; }
+  table.schedule .location, table.schedule .notes { color: #4A4A4A; }
+  table.schedule tr.evening .time { background: #E8DFD0; }
+
+  footer.viewer-foot {
+    text-align: center; padding: 24px 16px 32px; color: #8A8A8A;
+    font-size: 11px; letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 720px) {
+    table.schedule .block { display: none; }
+    table.schedule .time { width: 70px; padding: 10px 8px; }
+    table.schedule td { padding: 10px 8px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="sub">International Festival of Creativity</div>
+  <h1>CANNES LIONS 2026 — ITINERARY</h1>
+  <div class="meta">
+    <div class="dates">June 20 – 26, 2026</div>
+    <div class="updated">View only · last updated <span id="updated-date"></span></div>
+  </div>
+</header>
+
+<nav class="day-tabs" id="day-tabs"></nav>
+<main id="main"></main>
+
+<footer class="viewer-foot">
+  Snapshot maintained by Chris Rose · refresh to pull the latest deployed version
+</footer>
+
+<script>
+const DAYS = [
+  { key: 'd1', short: 'SAT', num: '20', date: '2026-06-20', full: 'Saturday, June 20, 2026', label: 'Day 1 — Arrival' },
+  { key: 'd2', short: 'SUN', num: '21', date: '2026-06-21', full: 'Sunday, June 21, 2026', label: 'Day 2' },
+  { key: 'd3', short: 'MON', num: '22', date: '2026-06-22', full: 'Monday, June 22, 2026', label: 'Day 3 — Festival Opens' },
+  { key: 'd4', short: 'TUE', num: '23', date: '2026-06-23', full: 'Tuesday, June 23, 2026', label: 'Day 4' },
+  { key: 'd5', short: 'WED', num: '24', date: '2026-06-24', full: 'Wednesday, June 24, 2026', label: 'Day 5' },
+  { key: 'd6', short: 'THU', num: '25', date: '2026-06-25', full: 'Thursday, June 25, 2026', label: 'Day 6' },
+  { key: 'd7', short: 'FRI', num: '26', date: '2026-06-26', full: 'Friday, June 26, 2026', label: 'Day 7 — Close & Departure' },
+];
+
+const SLOTS = [
+  { time: '8:00 AM',  block: 'Breakfast' },
+  { time: '9:00 AM',  block: 'Morning Session' },
+  { time: '10:00 AM', block: 'Morning Session' },
+  { time: '11:00 AM', block: 'Mid-Morning' },
+  { time: '12:00 PM', block: 'Lunch' },
+  { time: '1:00 PM',  block: 'Lunch' },
+  { time: '2:00 PM',  block: 'Afternoon Session' },
+  { time: '3:00 PM',  block: 'Afternoon Session' },
+  { time: '4:00 PM',  block: 'Afternoon Mtgs' },
+  { time: '5:00 PM',  block: 'Late Afternoon' },
+  { time: '6:00 PM',  block: 'Cocktail Hour', evening: true },
+  { time: '7:00 PM',  block: 'Cocktail Hour', evening: true },
+  { time: '8:00 PM',  block: 'Dinner', evening: true },
+  { time: '9:00 PM',  block: 'Dinner', evening: true },
+  { time: '10:00 PM', block: 'Evening Event', evening: true },
+  { time: '11:00 PM', block: 'Wrap', evening: true },
+];
+
+// EMBEDDED DATA — replaced each time Chris asks me to rebuild the viewer.
+// Schema per day: { slots: [ { activity: [strings], location: '', notes: '' } x 16 ] }
+const DATA = {
+  __lastUpdated: '2026-05-08',
+  d1: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
+  d2: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
+  d3: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
+  d4: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
+  d5: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
+  d6: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
+  d7: { slots: Array(16).fill(null).map(() => ({ activity: [], location: '', notes: '' })) },
+};
+
+// Apply known events
+DATA.d3.slots[9].activity = ['AdAge The List — Cannes kickoff (5:00–6:00 PM)'];
+DATA.d4.slots[9].activity = ['AdAge Small Agency Network at Cannes (5:00–6:00 PM)'];
+DATA.d5.slots[9].activity = ['Ad Age Cannes Lawn Party — RSVP required (5:30–7:30 PM)'];
+
+document.getElementById('updated-date').textContent = DATA.__lastUpdated;
+
+function renderDay(day) {
+  const panel = document.createElement('section');
+  panel.className = 'day-panel';
+  panel.dataset.day = day.key;
+
+  const header = document.createElement('div');
+  header.className = 'day-header';
+  header.innerHTML = `<div class="label">${day.label}</div><h2>${day.full}</h2>`;
+  panel.appendChild(header);
+
+  const table = document.createElement('table');
+  table.className = 'schedule';
+  table.innerHTML = `<thead><tr>
+    <th>Time</th><th>Block</th><th>Activity</th><th>Location</th><th>Notes</th>
+  </tr></thead><tbody></tbody>`;
+  const tbody = table.querySelector('tbody');
+
+  SLOTS.forEach((slot, i) => {
+    const data = DATA[day.key].slots[i] || { activity: [], location: '', notes: '' };
+    const tr = document.createElement('tr');
+    if (slot.evening) tr.classList.add('evening');
+
+    const tdTime = document.createElement('td');
+    tdTime.className = 'time'; tdTime.textContent = slot.time;
+    tr.appendChild(tdTime);
+
+    const tdBlock = document.createElement('td');
+    tdBlock.className = 'block'; tdBlock.textContent = slot.block;
+    tr.appendChild(tdBlock);
+
+    const tdAct = document.createElement('td');
+    tdAct.className = 'activity';
+    if (Array.isArray(data.activity) && data.activity.length) {
+      const ul = document.createElement('ul');
+      data.activity.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+      tdAct.appendChild(ul);
+    } else {
+      const span = document.createElement('span');
+      span.className = 'empty';
+      span.textContent = '—';
+      tdAct.appendChild(span);
+    }
+    tr.appendChild(tdAct);
+
+    const tdLoc = document.createElement('td');
+    tdLoc.className = 'location'; tdLoc.textContent = data.location || '';
+    tr.appendChild(tdLoc);
+
+    const tdNotes = document.createElement('td');
+    tdNotes.className = 'notes'; tdNotes.textContent = data.notes || '';
+    tr.appendChild(tdNotes);
+
+    tbody.appendChild(tr);
+  });
+  panel.appendChild(table);
+  return panel;
+}
+
+function buildTabs() {
+  const tabs = document.getElementById('day-tabs');
+  DAYS.forEach(day => {
+    const b = document.createElement('button');
+    b.dataset.day = day.key;
+    b.innerHTML = `<span class="day-short">${day.short}</span><span class="day-num">${day.num}</span>`;
+    b.addEventListener('click', () => setActive(day.key));
+    tabs.appendChild(b);
+  });
+}
+
+function setActive(dayKey) {
+  document.querySelectorAll('nav.day-tabs button').forEach(b => b.classList.toggle('active', b.dataset.day === dayKey));
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.toggle('active', p.dataset.day === dayKey));
+}
+
+const main = document.getElementById('main');
+DAYS.forEach(day => main.appendChild(renderDay(day)));
+buildTabs();
+
+// Pick today if in range, else first festival day
+const today = new Date().toISOString().slice(0, 10);
+const todayMatch = DAYS.find(d => d.date === today);
+setActive(todayMatch ? todayMatch.key : DAYS[0].key);
+</script>
+
+</body>
+</html>
